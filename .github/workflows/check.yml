@@ -158,7 +158,7 @@ jobs:
        need_update=0
        latest=`samloader -m ${{ matrix.model }} -r ${{ matrix.region }} checkupdate`
        latest_short=`echo $latest | cut -f1 -d '/'`
-       current=`cat current.${{ matrix.model }}` || need_update=1
+       current=`cat devices/current.${{ matrix.model }}` || need_update=1
        [[ $latest != $current ]] && need_update=1
        echo "latest_version=$latest" >> $GITHUB_OUTPUT
        echo "latest_version_short=$latest_short" >> $GITHUB_OUTPUT
@@ -210,8 +210,8 @@ jobs:
        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
        git config --local user.name "github-actions[bot]"
        git pull origin ${{github.ref}} --ff-only
-       echo ${{ steps.check.outputs.latest_version }} > current.${{ matrix.model }}
-       git add current.${{ matrix.model }}
+       echo ${{ steps.check.outputs.latest_version }} > devices/current.${{ matrix.model }}
+       git add devices/current.${{ matrix.model }}
        git commit -m "${{ matrix.model }}: ${{ steps.check.outputs.latest_version }}"
        git tag ${{ steps.check.outputs.latest_shortversion }}
 
